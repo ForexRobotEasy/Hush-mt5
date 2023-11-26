@@ -1,0 +1,79 @@
+
+//+------------------------------------------------------------------+
+//|                                           Hush MT5                |
+//|                            Copyright © 2021 forexroboteasy.com    |
+//|                            Developed by Forex Robot Easy Team      |
+//+------------------------------------------------------------------+
+
+// Indicator initialization function
+int OnInit()
+{
+    // Indicator buffers mapping
+    SetIndexBuffer(0, SignalBuffer);
+    SetIndexStyle(0, DRAW_ARROW);
+    SetIndexArrow(0, 234);
+
+    // Set the indicator name and short name
+    IndicatorSetString(INDICATOR_SHORTNAME, 'Hush MT5');
+    IndicatorSetString(INDICATOR_FULLNAME, 'Hush MT5 Indicator');
+
+    // Set the indicator timeframe compatibility
+    IndicatorSetInteger(INDICATOR_DIGITS, _Digits);
+    IndicatorSetInteger(INDICATOR_PERIOD, _Period);
+
+    return(INIT_SUCCEEDED);
+}
+
+// Indicator deinitialization function
+void OnDeinit(const int reason)
+{
+    // Clear indicator buffers
+    ArrayInitialize(SignalBuffer, EMPTY_VALUE);
+}
+
+// Indicator calculation function
+int OnCalculate(const int rates_total, const int prev_calculated, const datetime &time[], const double &open[], const double &high[], const double &low[], const double &close[], const long &tick_volume[], const long &volume[], const int &spread[])
+{
+    // Calculate signals for overbought and oversold market conditions
+    for (int i = prev_calculated; i < rates_total; i++)
+    {
+        if (IsOverbought(i))
+        {
+            SignalBuffer[i] = GetSignal(i, OVERBOUGHT);
+        }
+        else if (IsOversold(i))
+        {
+            SignalBuffer[i] = GetSignal(i, OVERSOLD);
+        }
+        else
+        {
+            SignalBuffer[i] = EMPTY_VALUE;
+        }
+    }
+
+    return(rates_total);
+}
+
+// Function to check if the market condition is overbought
+bool IsOverbought(const int index)
+{
+    // Implement the logic to check for overbought condition
+    // Return true if overbought, false otherwise
+}
+
+// Function to check if the market condition is oversold
+bool IsOversold(const int index)
+{
+    // Implement the logic to check for oversold condition
+    // Return true if oversold, false otherwise
+}
+
+// Function to generate a signal based on the market condition
+int GetSignal(const int index, const int condition)
+{
+    // Implement the logic to generate a signal based on the market condition
+    // Return the signal value
+}
+
+// Indicator buffers
+double SignalBuffer[];
